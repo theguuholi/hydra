@@ -5,12 +5,19 @@ defmodule Hydra.MixProject do
     [
       app: :hydra,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -41,7 +48,23 @@ defmodule Hydra.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}, # Analise de Codigo
+      {:excoveralls, "~> 0.10", only: :test}, # Cobertura de Testes
+      {:mix_test_watch, "~> 1.0", only: :dev}, # TDD
+
+      {:absinthe, "~> 1.6"}, #GraphQl
+      {:absinthe_relay, "~> 1.5", override: true},
+			#https://relay.dev construir apps escalaveis
+      {:absinthe_plug, "~> 1.5", override: true},
+      {:absinthe_phoenix, "~> 2.0"}, #utilizar com websockets
+      {:absinthe_error_payload, "~> 1.1"}, #lidar com erros de maneira Simples
+      {:dataloader, "~> 1.0.0"}, #lidar com queries de banco de dados
+      {:mock, "~> 0.3.0", only: :test}, # para mocar dados,
+
+			{:brod, "~> 3.15"},
+      {:broadway, "~> 1.0"},
+      {:broadway_kafka, "~> 0.3.0"}
     ]
   end
 
