@@ -26,11 +26,13 @@ config :logger, :console,
 
 config :hydra, :mongo_config,
   name: :mongo,
-  url: ""
+  url: "mongodb+srv://abobora123:abobora123@cluster0.mdmbp.mongodb.net/pickings",
+  pool_size: 2
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+import_config "poolboy.mongo.config.exs"
 import_config "kafka.picking.consumer.config.exs"
 
 # Import environment specific config. This must remain at the bottom

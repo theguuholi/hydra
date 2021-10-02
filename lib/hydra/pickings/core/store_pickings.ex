@@ -5,7 +5,8 @@ defmodule Hydra.Pickings.Core.StorePickings do
   def store_pickings_into_mongo(%{"products" => products}) do
     products
     |> build_payload_per_product()
-    |> IO.inspect()
+    |> insert_into_mongo
+    |> IO.inspect
   end
 
   defp build_payload_per_product(products) do
@@ -32,4 +33,29 @@ defmodule Hydra.Pickings.Core.StorePickings do
       }
     end)
   end
+
+  defp insert_into_mongo(products) do
+    Enum.map(products, &perform_insert/1) |> IO.inspect
+  end
+
+  defp perform_insert(product) do
+    {:ok, response} = Mongo.insert_one(:mongo, "orders", product)
+    response
+  end
 end
+
+
+# payload = %{
+#   "products" => [
+#     %{
+#       "product" => "abobora",
+#       "stores" => ["2fa1724a-4cea-4c37-8920-0e663d2999f9",
+#        "dfe39ee2-1646-48b7-aaf2-0938125cfcb0"]
+#     },
+#     %{
+#       "product" => "melancia",
+#       "stores" => ["2fa1724a-4cea-4c37-8920-0e663d2999f9",
+#        "dfe39ee2-1646-48b7-aaf2-0938125cfcb0"]
+#     }
+#   ]
+# }
