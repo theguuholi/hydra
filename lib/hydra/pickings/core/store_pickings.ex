@@ -1,12 +1,12 @@
 defmodule Hydra.Pickings.Core.StorePickings do
   alias Hydra.Repo
   alias Hydra.Stores.Store
+  alias Hydra.Pickings.Data.PickingPayload
 
   def store_pickings_into_mongo(%{"products" => products}) do
     products
     |> build_payload_per_product()
     |> insert_into_mongo
-    |> IO.inspect
   end
 
   defp build_payload_per_product(products) do
@@ -18,44 +18,18 @@ defmodule Hydra.Pickings.Core.StorePickings do
   defp build_payload_to_insert_into_mongo_per_store(stores, product_name) do
     stores
     |> Enum.map(fn store_id ->
-      store = Repo.get(Store, store_id)
-
-      %{
-        store: %{
-          id: store.id,
-          description: store.description,
-          name: store.name,
-          lat: store.lat,
-          lng: store.lng
-        },
-        product: product_name,
-        delivered: false
-      }
+      Store
+      |> Repo.get(store_id)
+      |> PickingPayload.new(product_name)
     end)
   end
 
   defp insert_into_mongo(products) do
-    Enum.map(products, &perform_insert/1) |> IO.inspect
+    Enum.map(products, &perform_insert/1)
   end
 
   defp perform_insert(product) do
-    {:ok, response} = Mongo.insert_one(:mongo, "orders", product)
+    {:ok, response} = Mongo.insert_one(:mongo, "orders", product) |> IO.inspect
     response
   end
 end
-
-
-# payload = %{
-#   "products" => [
-#     %{
-#       "product" => "abobora",
-#       "stores" => ["2fa1724a-4cea-4c37-8920-0e663d2999f9",
-#        "dfe39ee2-1646-48b7-aaf2-0938125cfcb0"]
-#     },
-#     %{
-#       "product" => "melancia",
-#       "stores" => ["2fa1724a-4cea-4c37-8920-0e663d2999f9",
-#        "dfe39ee2-1646-48b7-aaf2-0938125cfcb0"]
-#     }
-#   ]
-# }

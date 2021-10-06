@@ -7,6 +7,7 @@ defmodule Hydra.Pickings.Workers.ConsumeProductsFromKafka do
     Broadway.start_link(__MODULE__, opts)
   end
 
+  @spec handle_message(any, Broadway.Message.t(), any) :: Broadway.Message.t()
   def handle_message(_, message, _) do
     IO.inspect(message.data, label: "Got message")
     message
