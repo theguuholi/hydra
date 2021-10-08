@@ -29,7 +29,7 @@ defmodule Hydra.Pickings.Core.StorePickings do
   end
 
   defp perform_insert(product) do
-    {:ok, response} = Mongo.insert_one(:mongo, "orders", product) |> IO.inspect
+    {:ok, response} = Mongo.insert_one(:mongo, "orders", product)
     response
   end
 end

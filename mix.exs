@@ -66,7 +66,8 @@ defmodule Hydra.MixProject do
       {:broadway, "~> 1.0"},
       {:broadway_kafka, "~> 0.3.0"},
       {:mongodb_driver, "~> 0.7.4"},
-      {:poolboy, ">= 0.0.0"}
+      {:poolboy, ">= 0.0.0"},
+      {:benchee, "~> 1.0", only: :dev}
     ]
   end
 

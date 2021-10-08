@@ -18,5 +18,8 @@ config :hydra, HydraWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+config :hydra, :picking_producer, {Broadway.DummyProducer, []}
+
+
 # Print only warnings and errors during test
 config :logger, level: :warn
