@@ -18,8 +18,20 @@ config :hydra, HydraWeb.Endpoint,
   http: [port: 4002],
   server: false
 
-config :hydra, :picking_producer, {Broadway.DummyProducer, []}
-
+config :hydra, :picking_consumer,
+  name: :picking_consumer,
+  producer: [
+    module: {Broadway.DummyProducer, []},
+    concurrency: 2
+  ],
+  processors: [
+    default: [
+      concurrency: 10
+    ]
+  ],
+  batchers: [
+    mongo: [concurrency: 5, batch_size: 10, batch_timeout: 10_000]
+  ]
 
 # Print only warnings and errors during test
 config :logger, level: :warn

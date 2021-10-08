@@ -33,7 +33,6 @@ config :hydra, :mongo_config,
 config :phoenix, :json_library, Jason
 
 import_config "poolboy.mongo.config.exs"
-import_config "kafka.picking.consumer.config.exs"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

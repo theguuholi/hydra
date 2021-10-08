@@ -22,6 +22,8 @@ config :hydra, HydraWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+import_config "kafka.picking.consumer.config.exs"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

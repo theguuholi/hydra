@@ -5,6 +5,7 @@ defmodule Hydra.Pickings.Worker.MongoInsertWorkerTest do
   alias Hydra.Pickings.Worker.MongoInsertWorker
   alias Hydra.Pickings.Core.StorePickings
 
+
   setup do
     mongo_insert_worker = start_supervised!(MongoInsertWorker)
     %{mongo_insert_worker: mongo_insert_worker}
@@ -25,7 +26,7 @@ defmodule Hydra.Pickings.Worker.MongoInsertWorkerTest do
         [%Mongo.InsertOneResult{acknowledged: true, inserted_id: "123213"}]
       end
     ) do
-      result = GenServer.call(mongo_insert_worker, {:insert_mongo, payload})
+          result = GenServer.call(mongo_insert_worker, {:insert_mongo, payload})
       expected = [%Mongo.InsertOneResult{acknowledged: true, inserted_id: "123213"}]
       assert expected == result
     end
